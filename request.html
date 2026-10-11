@@ -8,15 +8,91 @@ var title = document.getElementById('title');
 var email = document.getElementById('email');
 var button = document.getElementById('submit');
 var statusBox = document.getElementById('status');
+var requestNumber = 0;
 
 function showStatus(message, type) {
   statusBox.textContent = message;
   statusBox.className = 'status show ' + (type || 'warn');
 }
 
+function finishRequest() {
+  button.disabled = false;
+  button.textContent = 'Submit Request';
+}
+
+function submitWithJsonp(artistValue, titleValue, emailValue) {
+  requestNumber += 1;
+  var callbackName = 'songRequestCallback_' + Date.now() + '_' + requestNumber;
+  var script = document.createElement('script');
+  var completed = false;
+  var timeoutId;
+
+  function cleanup() {
+    if (timeoutId) window.clearTimeout(timeoutId);
+    if (script.parentNode) script.parentNode.removeChild(script);
+    try { delete window[callbackName]; } catch (e) { window[callbackName] = undefined; }
+  }
+
+  window[callbackName] = function (result) {
+    if (completed) return;
+    completed = true;
+    cleanup();
+
+    if (result.status === 'alreadyExists' || result.alreadyExists === true) {
+      showStatus(result.message || 'That song is already in the Songbook. No request was sent.', 'warn');
+      finishRequest();
+      return;
+    }
+
+    if (result.status === 'duplicate' || result.duplicate === true) {
+      showStatus(result.message || 'That song has already been requested. No duplicate request was added.', 'warn');
+      finishRequest();
+      return;
+    }
+
+    if (result.status !== 'success' && result.success !== true) {
+      showStatus(result.message || 'The request could not be submitted.', 'error');
+      finishRequest();
+      return;
+    }
+
+    showStatus('Request submitted! ' + artistValue + ' - ' + titleValue + ' has been added to the request list. Thanks for helping grow The Shop Songbook!', 'success');
+    form.reset();
+    finishRequest();
+    statusBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  };
+
+  var params = new URLSearchParams();
+  params.set('action', 'requestSong');
+  params.set('artist', artistValue);
+  params.set('title', titleValue);
+  params.set('email', emailValue);
+  params.set('callback', callbackName);
+  params.set('_', String(Date.now()));
+
+  script.src = API + '?' + params.toString();
+  script.async = true;
+  script.onerror = function () {
+    if (completed) return;
+    completed = true;
+    cleanup();
+    showStatus('The request response could not be received. Please check the Requests sheet before trying again.', 'error');
+    finishRequest();
+  };
+
+  timeoutId = window.setTimeout(function () {
+    if (completed) return;
+    completed = true;
+    cleanup();
+    showStatus('The request is taking too long to confirm. Please check the Requests sheet before trying again.', 'error');
+    finishRequest();
+  }, 20000);
+
+  document.body.appendChild(script);
+}
+
 form.addEventListener('submit', function (event) {
   event.preventDefault();
-
   var artistValue = artist.value.trim();
   var titleValue = title.value.trim();
   var emailValue = email.value.trim();
@@ -25,7 +101,6 @@ form.addEventListener('submit', function (event) {
     showStatus('Please enter both the artist and song title.', 'error');
     return false;
   }
-
   if (emailValue && !email.checkValidity()) {
     showStatus('Please enter a valid email address or leave it blank.', 'error');
     return false;
@@ -34,63 +109,7 @@ form.addEventListener('submit', function (event) {
   button.disabled = true;
   button.textContent = 'Submitting...';
   showStatus('Checking and submitting your request...', 'warn');
-
-  var params = new URLSearchParams();
-  params.set('action', 'requestSong');
-  params.set('artist', artistValue);
-  params.set('title', titleValue);
-  params.set('email', emailValue);
-  params.set('_', String(Date.now()));
-
-  fetch(API + '?' + params.toString(), {
-    method: 'GET',
-    cache: 'no-store',
-    redirect: 'follow'
-  })
-    .then(function (response) {
-      return response.text().then(function (text) {
-        return { ok: response.ok, status: response.status, text: text };
-      });
-    })
-    .then(function (reply) {
-      if (!reply.ok) {
-        throw new Error('The request service returned ' + reply.status + '.');
-      }
-
-      var result;
-      try {
-        result = JSON.parse(reply.text);
-      } catch (parseError) {
-        throw new Error('The request service returned an unexpected response.');
-      }
-
-      if (result.status === 'alreadyExists' || result.alreadyExists === true) {
-        showStatus(result.message || 'That song is already in the Songbook. No request was sent.', 'warn');
-        return;
-      }
-
-      if (result.status === 'duplicate' || result.duplicate === true) {
-        showStatus(result.message || 'That song has already been requested. No duplicate request was added.', 'warn');
-        return;
-      }
-
-      if (result.status !== 'success' && result.success !== true) {
-        throw new Error(result.message || 'The request could not be submitted.');
-      }
-
-      showStatus('Request submitted! ' + artistValue + ' - ' + titleValue + ' has been added to the request list. Thanks for helping grow The Shop Songbook!', 'success');
-      form.reset();
-      statusBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-    })
-    .catch(function (error) {
-      showStatus(error.message || 'The request could not be submitted. Please try again.', 'error');
-      statusBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-    })
-    .then(function () {
-      button.disabled = false;
-      button.textContent = 'Submit Request';
-    });
-
+  submitWithJsonp(artistValue, titleValue, emailValue);
   return false;
 });
 </script></body></html>
