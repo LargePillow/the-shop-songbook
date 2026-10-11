@@ -9,6 +9,19 @@ var email = document.getElementById('email');
 var button = document.getElementById('submit');
 var statusBox = document.getElementById('status');
 var requestNumber = 0;
+var SAVED_EMAIL_KEY = 'shopSongbookRequesterEmail';
+try {
+  var savedEmail = window.localStorage.getItem(SAVED_EMAIL_KEY);
+  if (savedEmail) email.value = savedEmail;
+} catch (storageError) {}
+
+email.addEventListener('change', function () {
+  try {
+    var value = email.value.trim();
+    if (value && email.checkValidity()) window.localStorage.setItem(SAVED_EMAIL_KEY, value);
+    if (!value) window.localStorage.removeItem(SAVED_EMAIL_KEY);
+  } catch (storageError) {}
+});
 
 function showStatus(message, type) {
   statusBox.textContent = message;
@@ -57,7 +70,11 @@ function submitWithJsonp(artistValue, titleValue, emailValue) {
     }
 
     showStatus('Request submitted! ' + artistValue + ' - ' + titleValue + ' has been added to the request list. Thanks for helping grow The Shop Songbook!', 'success');
+    if (emailValue) {
+      try { window.localStorage.setItem(SAVED_EMAIL_KEY, emailValue); } catch (storageError) {}
+    }
     form.reset();
+    email.value = emailValue;
     finishRequest();
     statusBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
   };
