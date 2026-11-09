@@ -69,11 +69,54 @@
       <section class="notes-list" aria-label="Songbook version history">
         <details class="release" open>
           <summary>
-            <span class="release-title"><span class="release-version">v16.4</span><span class="release-name">Patch Notes &amp; Reporting</span><span class="release-date">First formal patch notes release</span></span>
+            <span class="release-title"><span class="release-version">v16.4.4</span><span class="release-name">Recently Added Navigation &amp; URL Cleanup</span><span class="release-date">November 9, 2026</span></span>
             <span class="release-arrow" aria-hidden="true">›</span>
           </summary>
           <div class="release-body">
             <p><span class="release-tag">Current release</span></p>
+            <h2>Recently Added</h2>
+            <ul>
+              <li>Added a View in Songbook action to each song in Recently Added.</li>
+              <li>The selected song opens in the main Songbook with the search field populated automatically.</li>
+              <li>The handoff uses temporary session storage and is deleted after use.</li>
+            </ul>
+            <h2>Simplified Navigation</h2>
+            <ul>
+              <li>Removed shareable Songbook search, filter, sort, view, arrangement, tuning, and New-filter URL state.</li>
+              <li>Removed individual song deep links and dormant copy-song-link functionality.</li>
+              <li>Songbook filters now remain local to the current page session and no longer rewrite the browser address.</li>
+              <li>Preserved normal site navigation, Spotify links, backend requests, and report source tracking.</li>
+            </ul>
+          </div>
+        </details>
+        <details class="release">
+          <summary>
+            <span class="release-title"><span class="release-version">v16.4.3</span><span class="release-name">Report Management &amp; Patch Notes</span><span class="release-date">November 9, 2026</span></span>
+            <span class="release-arrow" aria-hidden="true">›</span>
+          </summary>
+          <div class="release-body">
+            <h2>Report Management</h2>
+            <ul>
+              <li>Improved the Reports sheet with a controlled status workflow: New, Reviewing, Fixed, Duplicate, Won't Fix, and Closed.</li>
+              <li>Added status dropdowns directly to report rows to make issue triage faster and more consistent.</li>
+              <li>Added status-based row colors so New, Reviewing, Fixed, Duplicate, Won't Fix, and Closed reports are easier to scan.</li>
+              <li>Final report states continue to require a Resolution when that safety setting is enabled.</li>
+              <li>Updated report processing so reviewed reports are stamped and the administrative formatting stays synchronized.</li>
+            </ul>
+            <h2>Patch Notes</h2>
+            <ul>
+              <li>Promoted Patch Notes into the regular release workflow.</li>
+              <li>Added this v16.4.3 entry while preserving the original v16.4 and Pre-v16.4 history.</li>
+              <li>Future releases can be added as separate expandable version cards without changing the rest of the site.</li>
+            </ul>
+          </div>
+        </details>
+        <details class="release">
+          <summary>
+            <span class="release-title"><span class="release-version">v16.4</span><span class="release-name">Patch Notes &amp; Reporting</span><span class="release-date">First formal patch notes release</span></span>
+            <span class="release-arrow" aria-hidden="true">›</span>
+          </summary>
+          <div class="release-body">
             <h2>Patch Notes</h2>
             <ul>
               <li>Added this dedicated Patch Notes page.</li>
