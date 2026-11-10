@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-<head><meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://script.google.com https://script.googleusercontent.com; connect-src 'self' https://script.google.com https://script.googleusercontent.com; img-src 'self' data: blob: https://drive.google.com https://*.googleusercontent.com; style-src 'self' 'unsafe-inline'; font-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'"><meta name="songbook-version" content="Songbook-v16.5-dev3.6"><meta charset="utf-8">
+<head><meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://script.google.com https://script.googleusercontent.com; connect-src 'self' https://script.google.com https://script.googleusercontent.com; img-src 'self' data: blob: https://drive.google.com https://*.googleusercontent.com; style-src 'self' 'unsafe-inline'; font-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'"><meta name="songbook-version" content="Songbook-v16.5-dev3.6.1"><meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <meta name="theme-color" content="#061426">
   <meta name="description" content="Create, sign in to, and browse public profiles for The Shop Songbook.">
@@ -166,6 +166,48 @@
 .profile-settings[open]{text-align:left!important}.settings-shell{display:grid;gap:14px;margin-top:14px}.settings-section{padding:16px;border:1px solid var(--line);border-radius:12px;background:var(--page-bg)}.settings-section h3{margin:0 0 14px;color:var(--text);font-size:17px}.settings-row{display:grid;grid-template-columns:minmax(180px,1fr) minmax(260px,1.25fr);gap:18px;align-items:center}.settings-row+.settings-row{margin-top:16px;padding-top:16px;border-top:1px solid var(--line)}.settings-control{display:flex;gap:8px;align-items:center;justify-content:flex-end}.settings-control.stacked{display:grid;grid-template-columns:minmax(0,1fr) auto}.settings-control input,.follow-search input,.email-confirm input{height:44px;min-width:0;border:1px solid var(--control-border);border-radius:10px;background:var(--control-bg);color:var(--text);padding:0 12px;outline:0}.settings-control input:focus,.follow-search input:focus,.email-confirm input:focus{border-color:var(--cyan)}.email-confirm{display:flex;gap:8px;grid-column:1/-1}.email-confirm[hidden]{display:none!important}.profile-btn.danger{border-color:#a84f5d!important;color:#ffc2ca!important}.account-info{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin:0}.account-info div{padding:11px;border:1px solid var(--line);border-radius:10px;background:var(--card-a)}.account-info dt{color:var(--muted);font-size:11px}.account-info dd{margin:4px 0 0;color:var(--text);font-size:13px;font-weight:800;overflow-wrap:anywhere}.follow-search{display:grid;gap:7px;margin:14px 0 10px}.follow-list{display:grid;gap:8px}.follow-item{display:grid;grid-template-columns:42px minmax(0,1fr) auto;gap:10px;align-items:center;padding:9px 10px;border:1px solid var(--line);border-radius:10px;background:var(--card-a)}.follow-item .profile-avatar{width:42px;height:42px;font-size:17px}.follow-item strong{overflow-wrap:anywhere}.follow-item .profile-btn{min-height:38px;padding:0 11px;width:auto!important}.settings-section .avatar-editor{margin:0!important}
 @media(max-width:760px){.settings-row{grid-template-columns:1fr}.settings-control{justify-content:flex-start}.settings-control.stacked{grid-template-columns:1fr}.account-info{grid-template-columns:repeat(2,minmax(0,1fr))}.email-confirm{grid-template-columns:1fr;display:grid}}
 @media(max-width:430px){.settings-section{padding:13px}.settings-control{display:grid;grid-template-columns:1fr}.settings-control .profile-btn,.settings-row>.profile-btn{width:100%!important}.account-info{grid-template-columns:1fr}.follow-item{grid-template-columns:38px minmax(0,1fr);}.follow-item .profile-btn{grid-column:1/-1;justify-self:start}.follow-item .profile-avatar{width:38px;height:38px}}
+</style><style>
+/* v16.5-dev3.6.1 Profile Settings alignment */
+#signedIn .profile-settings[open]{text-align:left!important}
+#signedIn .settings-shell,#signedIn .settings-section,#signedIn .settings-section h3,#signedIn .settings-row,#signedIn .settings-row>div,#signedIn .settings-control,#signedIn .avatar-editor,#signedIn .avatar-tools,#signedIn .account-info,#signedIn .follow-search,#signedIn .follow-list{ text-align:left!important }
+#signedIn .settings-section h3{display:flex!important;align-items:center!important;justify-content:flex-start!important;margin:0 0 14px!important}
+#signedIn .settings-row{grid-template-columns:minmax(210px,.8fr) minmax(320px,1.45fr)!important;align-items:center!important}
+#signedIn .settings-row>div:first-child{justify-self:stretch!important}
+#signedIn .settings-row>button{justify-self:start!important}
+#signedIn .settings-control{justify-content:flex-start!important;width:100%!important}
+#signedIn .settings-control input{width:100%!important}
+#signedIn .settings-control.stacked{grid-template-columns:minmax(260px,1fr) auto!important;width:100%!important}
+#signedIn .settings-section .avatar-editor{grid-template-columns:112px minmax(0,1fr)!important;align-items:center!important}
+#signedIn .settings-section .avatar-tools{align-items:flex-start!important}
+#signedIn .settings-section .avatar-tools>#uploadAvatarBtn,#signedIn .settings-section .avatar-tools>#removeAvatarBtn{align-self:flex-start!important}
+#signedIn .account-info{grid-template-columns:repeat(4,minmax(0,1fr))!important}
+#signedIn .account-info div{text-align:left!important}
+#signedIn .account-info dt,#signedIn .account-info dd{text-align:left!important}
+#signedIn .follow-item{grid-template-columns:42px minmax(0,1fr) auto!important;text-align:left!important}
+#signedIn .follow-item .profile-btn{justify-self:end!important}
+@media(max-width:900px){
+ #signedIn .settings-row{grid-template-columns:1fr!important;gap:10px!important;align-items:start!important}
+ #signedIn .settings-control,#signedIn .settings-control.stacked{grid-template-columns:1fr!important;justify-content:stretch!important}
+ #signedIn .settings-control .profile-btn,#signedIn .settings-row>button{justify-self:start!important;width:auto!important}
+ #signedIn .account-info{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+}
+@media(max-width:600px){
+ #signedIn .settings-shell{gap:10px!important}
+ #signedIn .settings-section{padding:13px!important}
+ #signedIn .settings-section .avatar-editor{grid-template-columns:1fr!important;gap:12px!important}
+ #signedIn .settings-section .avatar-editor .avatar-preview{justify-self:start!important}
+ #signedIn .settings-control .profile-btn,#signedIn .settings-row>button{width:100%!important;justify-content:center!important}
+ #signedIn .email-confirm{grid-template-columns:1fr!important;width:100%!important}
+ #signedIn .email-confirm .profile-btn{width:100%!important}
+ #signedIn .account-info{grid-template-columns:1fr 1fr!important}
+ #signedIn .follow-item{grid-template-columns:38px minmax(0,1fr) auto!important;gap:8px!important}
+ #signedIn .follow-item .profile-avatar{width:38px!important;height:38px!important}
+}
+@media(max-width:390px){
+ #signedIn .account-info{grid-template-columns:1fr!important}
+ #signedIn .follow-item{grid-template-columns:36px minmax(0,1fr)!important}
+ #signedIn .follow-item .profile-btn{grid-column:1/-1!important;justify-self:start!important;width:auto!important}
+}
 </style></head>
 <body>
   <div class="mobile">
