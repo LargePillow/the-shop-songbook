@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-<head><meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://script.google.com https://script.googleusercontent.com; connect-src 'self' https://script.google.com https://script.googleusercontent.com; img-src 'self' data: blob: https://drive.google.com https://*.googleusercontent.com; style-src 'self' 'unsafe-inline'; font-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'"><meta name="songbook-version" content="Songbook-v16.5-dev3.5"><meta charset="utf-8">
+<head><meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://script.google.com https://script.googleusercontent.com; connect-src 'self' https://script.google.com https://script.googleusercontent.com; img-src 'self' data: blob: https://drive.google.com https://*.googleusercontent.com; style-src 'self' 'unsafe-inline'; font-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'"><meta name="songbook-version" content="Songbook-v16.5-dev3.5.1.1"><meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <meta name="theme-color" content="#061426">
   <meta name="description" content="Create, sign in to, and browse public profiles for The Shop Songbook.">
@@ -60,8 +60,7 @@
 #signedIn .profile-actions{margin:0;justify-content:flex-end}
 @media(max-width:700px){#signedIn .signed-card{grid-template-columns:1fr}#signedIn .profile-actions{justify-content:flex-start}#signedIn>.avatar-editor{grid-template-columns:1fr}#signedIn .avatar-preview{margin:0}}
 </style><style>
-#createPicture[hidden]{display:none!important}
-#createPicture:not([hidden]){display:grid}
+
 /* Profile settings are collapsed by default so account tools stay out of the main profile card. */
 .profile-settings{margin-top:10px;border-top:0;padding-top:0}
 .profile-settings>summary{list-style:none;display:inline-flex;align-items:center;gap:9px;min-height:42px;padding:0 14px;border:1px solid var(--control-border);border-radius:10px;background:transparent;color:var(--soft-text);font-weight:850;cursor:pointer;user-select:none}
@@ -124,6 +123,44 @@
 .my-favorites-link{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:12px 0 4px;padding:12px 14px;border:1px solid var(--line);border-radius:12px;background:var(--page-bg);text-align:left}.my-favorites-link[hidden]{display:none!important}.my-favorites-link>div{display:grid;gap:2px}.my-favorites-link strong{color:var(--cyan);font-size:18px}.my-favorites-link span{color:var(--muted);font-size:12px}.my-favorites-link .profile-btn{display:inline-flex;align-items:center;text-decoration:none;width:auto!important}
 .profile-favorites-link{display:inline-flex;align-items:center;margin-top:8px;color:var(--cyan);font-size:12px;font-weight:850;text-decoration:none}.profile-favorites-link:hover{text-decoration:underline}.profile-card.has-favorites{align-items:start}
 @media(max-width:560px){.my-favorites-link{align-items:flex-start;flex-direction:column}.my-favorites-link .profile-btn{width:auto!important}}
+</style><style>
+/* v16.5-dev3.5.1.1 signed-in profile layout polish */
+#signedIn{display:block}
+#signedIn[hidden]{display:none!important}
+#signedIn .signed-card{display:grid!important;grid-template-columns:minmax(0,1fr) auto!important;align-items:start!important;column-gap:18px!important;row-gap:0!important;padding:0!important;min-height:0!important}
+#signedIn .signed-copy{display:grid!important;grid-template-columns:64px minmax(0,1fr)!important;align-items:center!important;gap:16px!important;min-width:0!important;padding:0!important}
+#signedIn .signed-copy>div:last-child{min-width:0!important}
+#signedIn .profile-name{font-size:22px!important;line-height:1.15!important;overflow-wrap:anywhere!important;word-break:normal!important;max-width:100%!important}
+#signedIn .profile-meta{margin-top:5px!important}
+#signedIn .signed-card>.profile-actions{position:static!important;grid-column:2!important;grid-row:1!important;align-self:end!important;display:flex!important;justify-content:flex-end!important;width:auto!important;margin:0 0 2px!important;padding:0!important}
+#signedIn .signed-card>.profile-actions .profile-btn{width:auto!important;min-width:102px!important;min-height:42px!important;margin:0!important;padding:0 15px!important}
+#signedIn .my-favorites-link{display:grid!important;grid-template-columns:minmax(0,1fr) auto!important;align-items:center!important;column-gap:16px!important;row-gap:2px!important;margin:14px 0 4px!important;padding:12px 14px!important}
+#signedIn .my-favorites-link[hidden]{display:none!important}
+#signedIn .my-favorites-link>div{display:grid!important;gap:1px!important;min-width:0!important}
+#signedIn .my-favorites-link .profile-btn{grid-column:2!important;grid-row:1 / span 2!important;align-self:center!important;justify-self:end!important;width:auto!important;min-height:40px!important;padding:0 13px!important;white-space:nowrap!important}
+#signedIn .profile-settings{margin-top:9px!important}
+@media(max-width:700px){
+ #signedIn .signed-card{grid-template-columns:64px minmax(0,1fr) auto!important;column-gap:12px!important;align-items:center!important}
+ #signedIn .signed-copy{display:contents!important}
+ #signedIn #myAvatar{grid-column:1!important;grid-row:1 / span 2!important;align-self:center!important}
+ #signedIn .signed-copy>div:last-child{grid-column:2 / 4!important;grid-row:1 / span 2!important;padding-right:0!important}
+ #signedIn .profile-name{padding-right:0!important;max-width:100%!important}
+ #signedIn .profile-meta{padding-right:112px!important;min-height:42px!important;display:flex!important;align-items:center!important}
+ #signedIn .signed-card>.profile-actions{grid-column:3!important;grid-row:2!important;align-self:center!important;z-index:2!important;margin:0!important}
+ #signedIn .signed-card>.profile-actions .profile-btn{min-width:92px!important;min-height:40px!important;padding:0 12px!important}
+ #signedIn .my-favorites-link{grid-template-columns:minmax(0,1fr) auto!important;column-gap:10px!important;padding:12px!important}
+ #signedIn .my-favorites-link .profile-btn{min-height:40px!important;padding:0 11px!important;font-size:13px!important}
+}
+@media(max-width:430px){
+ #signedIn .signed-card{grid-template-columns:58px minmax(0,1fr) auto!important;column-gap:10px!important}
+ #signedIn #myAvatar{width:58px!important;height:58px!important;font-size:24px!important}
+ #signedIn .profile-name{font-size:20px!important}
+ #signedIn .profile-meta{padding-right:96px!important;font-size:12px!important}
+ #signedIn .signed-card>.profile-actions .profile-btn{min-width:86px!important;padding:0 10px!important;font-size:13px!important}
+ #signedIn .my-favorites-link strong{font-size:17px!important}
+ #signedIn .my-favorites-link span{font-size:11px!important}
+ #signedIn .my-favorites-link .profile-btn{padding:0 10px!important;font-size:12px!important}
+}
 </style></head>
 <body>
   <div class="mobile">
