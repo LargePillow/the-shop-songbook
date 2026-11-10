@@ -84,7 +84,18 @@
   #signedIn .signed-card>.profile-actions .profile-btn{width:auto!important;min-width:94px!important;min-height:44px!important;margin:0!important}
   #signedIn .profile-settings{margin-top:10px!important}
 }
-</style><style>button:disabled{opacity:.65;cursor:wait}.profile-status:empty{display:none!important}.profile-status.show{margin-top:10px}.profile-form+.profile-form{margin-top:16px}.profile-panel.show{margin-top:18px}</style><style>.profile-btn.is-busy{opacity:.72!important;cursor:wait!important;border-color:var(--cyan)!important}.profile-btn.is-busy::after{content:' …';color:var(--cyan)}</style></head>
+</style><style>button:disabled{opacity:.65;cursor:wait}.profile-status:empty{display:none!important}.profile-status.show{margin-top:10px}.profile-form+.profile-form{margin-top:16px}.profile-panel.show{margin-top:18px}</style><style>.profile-btn.is-busy{opacity:.72!important;cursor:wait!important;border-color:var(--cyan)!important}.profile-btn.is-busy::after{content:' …';color:var(--cyan)}</style><style>
+/* Keep Profile Settings aligned with the right edge of the signed-in card on all viewports. */
+#signedIn .profile-settings{display:block!important;width:100%!important;text-align:right!important}
+#signedIn .profile-settings>summary{display:inline-flex!important;width:auto!important;margin-left:auto!important;margin-right:0!important;text-align:left!important}
+#signedIn .profile-settings .avatar-editor{text-align:left!important}
+@media(max-width:700px){
+  #signedIn .profile-settings{width:100%!important;margin-top:10px!important;text-align:right!important}
+  #signedIn .profile-settings>summary{width:auto!important;max-width:100%!important;margin-left:auto!important;margin-right:0!important}
+  #signedIn .profile-settings[open]{text-align:right!important}
+  #signedIn .profile-settings[open]>.avatar-editor{width:100%!important;text-align:left!important}
+}
+</style></head>
 <body>
   <div class="mobile">
     <button class="hamb" id="hamb" type="button" aria-label="Open navigation" aria-expanded="false"><span class="hamb-mid" aria-hidden="true"></span></button>
