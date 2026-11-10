@@ -94,6 +94,21 @@
 .create-picture{grid-template-columns:88px minmax(0,1fr)!important;gap:18px!important;padding:16px!important;align-items:center!important}.create-picture img{width:88px!important;height:88px!important;border-radius:50%!important;object-fit:cover!important;border:1px solid var(--control-border)!important;background:var(--active-bg)!important}.create-picture .create-picture-copy{display:grid;gap:8px;min-width:0}.create-picture .helper{margin:0}.create-picture input[type=file]{max-width:100%;color:var(--soft-text)}
 #signedIn .profile-settings .avatar-editor{grid-template-columns:112px minmax(0,1fr)!important;gap:20px!important;padding:18px!important}#signedIn .avatar-tools{display:grid!important;grid-template-columns:minmax(0,1fr) auto auto!important;gap:10px!important;align-items:end!important}#signedIn .avatar-tools>strong,#signedIn .avatar-tools>.helper,#signedIn .avatar-tools>#avatarFile,#signedIn .avatar-tools>#avatarStatus{grid-column:1/-1}#signedIn .avatar-tools>#uploadAvatarBtn{grid-column:2}#signedIn .avatar-tools>#removeAvatarBtn{grid-column:3}
 @media(max-width:620px){.create-picture{grid-template-columns:72px minmax(0,1fr)!important}.create-picture img{width:72px!important;height:72px!important}#signedIn .profile-settings .avatar-editor{grid-template-columns:1fr!important}#signedIn .avatar-tools{grid-template-columns:1fr!important}#signedIn .avatar-tools>#uploadAvatarBtn,#signedIn .avatar-tools>#removeAvatarBtn{grid-column:1;width:100%!important}.profile-status{width:100%!important}}
+</style><style>
+/* Restore the preferred profile-control alignment. */
+#signedIn .profile-settings{display:block!important;width:100%!important;text-align:right!important}
+#signedIn .profile-settings>summary{display:inline-flex!important;width:auto!important;margin-left:auto!important;margin-right:0!important;text-align:left!important}
+#signedIn .profile-settings .avatar-editor{text-align:left!important}
+#signedIn .avatar-tools{display:flex!important;flex-direction:column!important;align-items:flex-start!important;justify-content:flex-start!important;gap:10px!important}
+#signedIn .avatar-tools>strong,#signedIn .avatar-tools>.helper,#signedIn .avatar-tools>#avatarFile,#signedIn .avatar-tools>#avatarStatus{width:100%!important;text-align:left!important}
+#signedIn .avatar-tools>#avatarFile{max-width:520px!important}
+#signedIn .avatar-tools>#uploadAvatarBtn,#signedIn .avatar-tools>#removeAvatarBtn{width:auto!important;min-width:0!important;margin:0!important;align-self:flex-start!important}
+@media(max-width:700px){
+  #signedIn .profile-settings{width:100%!important;text-align:right!important}
+  #signedIn .profile-settings>summary{margin-left:auto!important;margin-right:0!important}
+  #signedIn .avatar-tools{align-items:flex-start!important}
+  #signedIn .avatar-tools>#uploadAvatarBtn,#signedIn .avatar-tools>#removeAvatarBtn{width:auto!important;align-self:flex-start!important}
+}
 </style></head>
 <body>
   <div class="mobile">
