@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-<head><meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://script.google.com https://script.googleusercontent.com; connect-src 'self' https://script.google.com https://script.googleusercontent.com; img-src 'self' data: blob: https://drive.google.com https://*.googleusercontent.com; style-src 'self' 'unsafe-inline'; font-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'"><meta name="songbook-version" content="Songbook-v16.5-dev3.6.3.1"><meta charset="utf-8">
+<head><meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://script.google.com https://script.googleusercontent.com; connect-src 'self' https://script.google.com https://script.googleusercontent.com; img-src 'self' data: blob: https://drive.google.com https://*.googleusercontent.com; style-src 'self' 'unsafe-inline'; font-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'"><meta name="songbook-version" content="Songbook-v16.5-dev3.6.3.2"><meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <meta name="theme-color" content="#061426">
   <meta name="description" content="Create, sign in to, and browse public profiles for The Shop Songbook.">
@@ -223,7 +223,15 @@
 #followSearch:disabled{opacity:.55;cursor:wait}
 @media(max-width:430px){.settings-danger-zone>.profile-btn{width:100%!important}.follow-loading-button{width:65px}}
 @media(prefers-reduced-motion:reduce){.settings-loading,.account-info.is-loading dd::after{animation:none!important}}
-</style><style>.sr-only{position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;overflow:hidden!important;clip:rect(0,0,0,0)!important;white-space:nowrap!important;border:0!important}</style></head>
+</style><style>.sr-only{position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;overflow:hidden!important;clip:rect(0,0,0,0)!important;white-space:nowrap!important;border:0!important}</style><style>
+/* dev3.6.3.2: keep the picture action directly below the file chooser */
+#signedIn .settings-section .avatar-tools{display:flex!important;flex-direction:column!important;align-items:flex-start!important;justify-content:flex-start!important;gap:9px!important;width:100%!important;text-align:left!important}
+#signedIn .settings-section .avatar-tools>#avatarFile{display:block!important;align-self:flex-start!important;width:100%!important;max-width:100%!important;margin:0!important}
+#signedIn .settings-section .avatar-tools>#pictureActionBtn{display:inline-flex!important;grid-column:auto!important;grid-row:auto!important;align-self:flex-start!important;justify-self:start!important;width:auto!important;min-width:0!important;margin:0!important;white-space:nowrap!important}
+#signedIn .settings-section .avatar-tools>#avatarStatus{align-self:stretch!important;width:100%!important}
+@media(max-width:600px){#signedIn .settings-section .avatar-tools{align-items:flex-start!important}#signedIn .settings-section .avatar-tools>#pictureActionBtn{width:auto!important;align-self:flex-start!important}}
+@media(max-width:390px){#signedIn .settings-section .avatar-tools>#pictureActionBtn{width:auto!important;grid-column:auto!important;grid-row:auto!important}}
+</style></head>
 <body>
   <div class="mobile">
     <button class="hamb" id="hamb" type="button" aria-label="Open navigation" aria-expanded="false"><span class="hamb-mid" aria-hidden="true"></span></button>
