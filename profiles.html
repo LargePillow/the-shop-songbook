@@ -328,7 +328,28 @@ select option{background:var(--control-bg);color:var(--text)}
  :is(.skeleton,.favorites-loading-line,.report-skeleton,.settings-loading,.card.random-result,#randomSong.rolling .dice-face),.account-info.is-loading dd::after,.loading-line::after,.stat.loading b::after,.skeleton-card::after{animation:none!important}
 }
 @media(forced-colors:active){select:not([multiple]):not([size]),select[size="1"]{appearance:auto!important;-webkit-appearance:auto!important;background-image:none!important}:is(.toolbar button,.views button,.arr-filter,.profile-btn,.request-modes button,.request-launch,.request-close,.upvote,.report-tabs button,.report-refresh,.history-actions button,.older-button,.more,.top,.favorites-back,.report-actions button,.submit):is(.active,.selected,[aria-pressed="true"]){outline:2px solid Highlight!important;outline-offset:-3px!important}}
-</style><meta name="songbook-file-revision" content="profiles-dev3.12"></head>
+</style><meta name="songbook-file-revision" content="profiles-dev3.12"><style id="songbook-single-dropdown-border">
+/* Dropdowns use one border rather than border + outline + glow. */
+select:not([multiple]):focus,
+select:not([multiple]):focus-visible,
+select:not([multiple]):active{
+  outline:none!important;
+  outline-offset:0!important;
+  box-shadow:none!important;
+  border-color:var(--cyan,#20c9ff)!important;
+}
+@supports selector(select:open){
+  select:not([multiple]):open{
+    outline:none!important;
+    outline-offset:0!important;
+    box-shadow:none!important;
+    border-color:var(--cyan,#20c9ff)!important;
+  }
+}
+@media(forced-colors:active){
+  select:not([multiple]):focus-visible{outline:2px solid Highlight!important;outline-offset:2px!important}
+}
+</style></head>
 <body>
   <div class="mobile">
     <button class="hamb" id="hamb" type="button" aria-label="Open navigation" aria-expanded="false"><span class="hamb-mid" aria-hidden="true"></span></button>
