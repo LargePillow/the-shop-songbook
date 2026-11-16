@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <meta name="theme-color" content="#061426">
-  <meta name="description" content="Report an issue with The Shop Songbook website or catalog.">
+  <meta name="description" content="Browse reported issues, boost reports that deserve attention, or submit a new issue with The Shop Songbook.">
   <title>Report an Issue | The Shop Songbook</title>
   <link href="favicon.png" rel="icon">
   <style>
@@ -95,7 +95,7 @@ select option{background:var(--control-bg);color:var(--text)}
 @keyframes pageCardShimmer{to{transform:translateX(100%)}}
 @media(max-width:560px){.page-loading-card{padding:16px}.load-title{width:58%}.load-date{width:36%}.load-date-head{gap:10px}.load-date-head .load-pill{width:70px;flex-basis:70px}.load-wide{width:94%}.load-medium{width:76%}}
 @media(prefers-reduced-motion:reduce){.page-loading-card::after{animation:none;display:none}}
-</style></head>
+</style><style>.boost-count{display:inline-block;margin-left:10px;vertical-align:middle}</style></head>
 <body>
   <div class="mobile">
     <button class="hamb" id="hamb" type="button" aria-label="Open navigation" aria-expanded="false"><span class="hamb-mid" aria-hidden="true"></span></button>
@@ -120,14 +120,14 @@ select option{background:var(--control-bg);color:var(--text)}
     <div class="wrap">
       <section class="hero">
         <h1>Report an <span>issue.</span></h1>
-        <p>Found something wrong with the Songbook or website? Let us know what happened and we’ll take a look.</p>
+        <p>Browse reported issues, boost reports that deserve attention, or submit a new issue.</p>
       </section>
 
       <button class="report-refresh" id="openReportForm" type="button">＋ Report an Issue</button>
     </div>
   
 <section class="form-card my-reports" id="myReports" hidden aria-label="Community Reports">
-  <div class="my-reports-heading"><div><h2>Community Reports</h2><p>Browse active issues before reporting a new one. Sign in to add Me Too.</p></div></div>
+  <div class="my-reports-heading"><div><h2>Community Reports</h2><p>Noticed an issue too? Sign in to boost its report and help bring attention to it.</p></div></div>
   <div class="my-reports-tools"><div class="report-tabs" role="group" aria-label="Filter reports"><button type="button" data-report-filter="all">All Reports</button><button type="button" class="selected" data-report-filter="open">Active</button><button type="button" data-report-filter="mine">My Reports</button><button type="button" data-report-filter="resolved">Resolved</button></div><label class="report-sort-label"><select id="reportSort" aria-label="Report order"><option value="newest">Newest first</option><option value="oldest">Oldest first</option></select></label></div>
   <div id="myReportsList" aria-live="polite"></div>
   <div id="myReportsError" class="status error" role="alert"></div>
@@ -211,7 +211,7 @@ select option{background:var(--control-bg);color:var(--text)}
         var title=document.createElement('h3');title.textContent=row.subject||row.category||'Issue report';
         var details=document.createElement('p');details.textContent=row.description||'';card.append(top,title,details);
         if(row.feature||row.severity){var area=document.createElement('p');area.className='report-meta';area.textContent=[row.feature,row.severity].filter(Boolean).join(' · ');card.append(area)}
-        if(!reportIsResolved(row)){var support=document.createElement('button');support.type='button';support.className='report-refresh';support.textContent=(row.viewerSupported?'Me Too added':'Me Too')+' · '+Number(row.supportCount||0);support.disabled=!!row.viewerSupported||reportAuthInvalid;support.onclick=function(){supportReport(row,support)};card.append(support)}if(row.resolution){var resolution=document.createElement('div');resolution.className='report-resolution';var label=document.createElement('strong');label.textContent='Resolution';var text=document.createElement('p');text.textContent=row.resolution;resolution.append(label,text);card.append(resolution)}
+        if(!reportIsResolved(row)){var support=document.createElement('button');support.type='button';support.className='report-refresh';support.textContent=row.viewerSupported?'✓ Boosted':'↑ Boost';support.title='Noticed this too? Help bring attention to it.';support.setAttribute('aria-pressed',String(!!row.viewerSupported));var boostCount=document.createElement('span');boostCount.className='report-meta boost-count';var count=Number(row.supportCount||0);boostCount.textContent=count+' '+(count===1?'boost':'boosts');support.disabled=!!row.viewerSupported||reportAuthInvalid;support.onclick=function(){supportReport(row,support)};card.append(support,boostCount)}if(row.resolution){var resolution=document.createElement('div');resolution.className='report-resolution';var label=document.createElement('strong');label.textContent='Resolution';var text=document.createElement('p');text.textContent=row.resolution;resolution.append(label,text);card.append(resolution)}
         reportList.append(card);
       });
     }
@@ -248,7 +248,7 @@ select option{background:var(--control-bg);color:var(--text)}
     document.querySelectorAll('#sidebar a').forEach(function(a){a.addEventListener('click',function(){if(window.innerWidth<=820)setMobileNav(false);});});
   
 var lastReportFocusReload=Date.now();window.addEventListener('focus',function(){if(!reportLoading&&Date.now()-lastReportFocusReload>30000){lastReportFocusReload=Date.now();loadMyReports()}});var reportDialog=document.getElementById('reportDialog');document.getElementById('openReportForm').onclick=function(){updateReportIdentity();reportDialog.showModal();document.getElementById('issueType').focus()};document.getElementById('closeReportForm').onclick=function(){if(!sending)reportDialog.close()};reportDialog.addEventListener('cancel',function(e){if(sending)e.preventDefault()});
-async function supportReport(row,btn){var s=getReportSession();if(!s||reportAuthInvalid){reportError.textContent='Sign in on the Profiles page to add Me Too.';reportError.className='status error show';return}btn.disabled=true;btn.textContent='Saving...';var controller=new AbortController(),timer=setTimeout(function(){controller.abort()},25000);try{var response=await fetch(API,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({action:'supportIssueReport',id:row.id,sessionToken:s.sessionToken}),signal:controller.signal,redirect:'follow'}),result=await response.json();if(!result.success)throw Error(result.message||'Could not save Me Too.');await loadMyReports()}catch(e){reportError.textContent=e.message||'Unable to confirm Me Too. Refresh before retrying.';reportError.className='status error show';btn.disabled=false;btn.textContent='Me Too'}finally{clearTimeout(timer)}}
+async function supportReport(row,btn){var s=getReportSession();if(!s||reportAuthInvalid){reportError.textContent='Sign in on the Profiles page to boost this report.';reportError.className='status error show';return}btn.disabled=true;btn.textContent='Boosting...';var controller=new AbortController(),timer=setTimeout(function(){controller.abort()},25000);try{var response=await fetch(API,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({action:'supportIssueReport',id:row.id,sessionToken:s.sessionToken}),signal:controller.signal,redirect:'follow'}),result=await response.json();if(!result.success)throw Error(String(result.message||'Could not boost this report.').replace(/me\s+too/gi,'boost'));await loadMyReports()}catch(e){reportError.textContent=e.message||'Unable to confirm your boost. Reload the page before retrying.';reportError.className='status error show';btn.disabled=false;btn.textContent='↑ Boost'}finally{clearTimeout(timer)}}
 </script>
 </body>
 </html>
