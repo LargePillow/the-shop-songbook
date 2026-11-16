@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-<head><meta name="songbook-version" content="Songbook-v16.5-dev3.9">
+<head><meta name="songbook-version" content="Songbook-v16.5-dev3.10">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <meta name="theme-color" content="#061426">
@@ -36,7 +36,7 @@
   <link href="theme.css" rel="stylesheet">
 <style>.sidebar{display:flex;flex-direction:column}.utility-nav{margin-top:auto;flex:0 0 auto;padding-top:16px;padding-bottom:max(4px,env(safe-area-inset-bottom));border-top:1px solid var(--line)}</style><style>.report-identity{margin-bottom:18px;padding:12px 15px;border:1px solid var(--line);border-radius:12px;background:var(--page-bg);color:var(--soft-text);font-size:14px}.report-identity strong{color:var(--cyan)}.report-identity a{color:var(--cyan);font-weight:800}.report-identity.error{border-color:#f87171}.field textarea#expected,.field textarea#steps{min-height:100px}.form-grid .submit:disabled{opacity:.48;cursor:not-allowed}@media(max-width:560px){.report-identity{font-size:13px}}</style><style>#guestReportEmail[hidden]{display:none!important}.report-identity.guest{border-color:var(--search-border)}</style><style>.report-honeypot{position:absolute!important;left:-10000px!important;width:1px!important;height:1px!important;overflow:hidden!important}.report-recovery{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:0 0 16px}.report-recovery[hidden]{display:none!important}.report-recovery .profile-btn{display:inline-flex;align-items:center;justify-content:center;min-height:40px;padding:9px 13px;border:1px solid var(--control-border);border-radius:10px;background:var(--control-bg);color:var(--text);font-weight:800;text-decoration:none;cursor:pointer}.report-recovery .profile-btn:hover{border-color:var(--cyan);color:var(--cyan)}</style><style>
 .my-reports{margin-top:22px}.my-reports[hidden]{display:none!important}.my-reports-heading{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap}.my-reports-heading h2{margin:0;font-size:25px}.my-reports-heading p{margin:7px 0 0;color:var(--muted);font-size:14px}.my-reports-tools{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin:20px 0}.report-tabs{display:flex;gap:8px;flex-wrap:wrap}.report-tabs button,.report-refresh,.report-sort-label select{border:1px solid var(--control-border);border-radius:10px;background:var(--control-bg);color:var(--text);padding:10px 14px;cursor:pointer}.report-tabs button:hover,.report-refresh:hover,.report-tabs button.selected{border-color:var(--cyan);background:var(--active-bg)}.report-sort-label{display:flex;align-items:center;gap:9px;color:var(--soft-text);font-size:14px}.report-entry{padding:18px;border:1px solid var(--line);border-radius:13px;background:var(--page-bg);margin-top:12px;overflow-wrap:anywhere}.report-entry-top{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}.report-entry h3{margin:8px 0;font-size:18px}.report-entry p{margin:9px 0 0;color:var(--soft-text);white-space:pre-wrap}.report-meta{font-size:12px;color:var(--muted)}.report-badge{font-size:12px;font-weight:800;border:1px solid var(--control-border);border-radius:30px;padding:5px 10px;color:var(--cyan)}.report-badge.resolved{color:#b9f6ca;border-color:#2f9e58}.report-resolution{border-left:3px solid #2f9e58;margin-top:14px;padding:10px 13px;background:#0a2a28;border-radius:5px}.report-resolution strong{color:#b9f6ca}.report-skeleton{height:110px;border-radius:13px;margin-top:12px;background:linear-gradient(100deg,var(--card-a) 25%,var(--active-bg) 50%,var(--card-a) 75%);background-size:200% 100%;animation:report-shimmer 1.5s infinite}@keyframes report-shimmer{to{background-position-x:-200%}}@media(prefers-reduced-motion:reduce){.report-skeleton{animation:none}}@media(max-width:560px){.my-reports-tools{align-items:stretch}.report-tabs{width:100%}.report-tabs button{flex:1}.report-sort-label{width:100%;justify-content:space-between}}
-</style></head>
+</style><style>[hidden]{display:none!important}#reportDialog{width:min(680px,calc(100% - 24px));max-height:calc(100dvh - 32px);overflow:auto;border:1px solid var(--search-border);border-radius:18px;background:var(--page-bg);color:var(--text);padding:22px}#reportDialog::backdrop{background:#000b}.report-dialog-head{display:flex;justify-content:space-between;align-items:center;gap:16px}#reportDialog .form-card{padding:18px}.report-entry button{margin-top:14px}.report-refresh:disabled{opacity:.6;cursor:wait}</style></head>
 <body>
   <div class="mobile">
     <button class="hamb" id="hamb" type="button" aria-label="Open navigation" aria-expanded="false"><span class="hamb-mid" aria-hidden="true"></span></button>
@@ -64,7 +64,16 @@
         <p>Found something wrong with the Songbook or website? Let us know what happened and we’ll take a look.</p>
       </section>
 
-      <section class="form-card">
+      <button class="report-refresh" id="openReportForm" type="button">＋ Report an Issue</button>
+    </div>
+  
+<section class="form-card my-reports" id="myReports" hidden aria-label="Community Reports">
+  <div class="my-reports-heading"><div><h2>Community Reports</h2><p>Browse active issues before reporting a new one. Sign in to add Me Too.</p></div><button type="button" class="report-refresh" id="refreshReports">Refresh</button></div>
+  <div class="my-reports-tools"><div class="report-tabs" role="group" aria-label="Filter reports"><button type="button" data-report-filter="all">All Reports</button><button type="button" class="selected" data-report-filter="open">Active</button><button type="button" data-report-filter="mine">My Reports</button><button type="button" data-report-filter="resolved">Resolved</button></div><label class="report-sort-label">Sort <select id="reportSort"><option value="newest">Newest first</option><option value="oldest">Oldest first</option></select></label></div>
+  <div id="myReportsList" aria-live="polite"></div>
+  <div id="myReportsError" class="status error" role="alert"></div>
+</section>
+</main><dialog id="reportDialog" aria-label="Report an Issue"><div class="report-dialog-head"><h2>Report an Issue</h2><button class="report-refresh" id="closeReportForm" type="button">Close</button></div><p class="helper">The song/page and issue description will be public. Do not include private information or verification codes. Contact details and other fields remain private.</p><section class="form-card">
         <div id="reportIdentity" class="report-identity" role="status">Checking your Songbook profile…</div><div id="reportRecovery" class="report-recovery" hidden><a class="profile-btn" href="profiles.html">Sign In Again</a><button class="profile-btn" id="reportAsGuest" type="button">Continue as Guest</button></div><form class="form-grid" id="reportForm" novalidate><div class="report-honeypot" aria-hidden="true"><label for="reportWebsite">Leave this field blank</label><input id="reportWebsite" type="text" tabindex="-1" autocomplete="off"></div>
           
 
@@ -105,16 +114,7 @@
           <div aria-live="polite" class="status" id="status" role="status"></div>
         </form>
         <p class="privacy">Reports are linked to your signed-in Songbook profile. No email address is published.</p>
-      </section>
-    </div>
-  
-<section class="form-card my-reports" id="myReports" hidden aria-label="My Reports">
-  <div class="my-reports-heading"><div><h2>My Reports</h2><p>Track issues submitted with your Songbook profile.</p></div><button type="button" class="report-refresh" id="refreshReports">Refresh</button></div>
-  <div class="my-reports-tools"><div class="report-tabs" role="group" aria-label="Filter reports"><button type="button" class="selected" data-report-filter="all">All</button><button type="button" data-report-filter="open">Open</button><button type="button" data-report-filter="resolved">Resolved</button></div><label class="report-sort-label">Sort <select id="reportSort"><option value="newest">Newest first</option><option value="oldest">Oldest first</option></select></label></div>
-  <div id="myReportsList" aria-live="polite"></div>
-  <div id="myReportsError" class="status error" role="alert"></div>
-</section>
-</main>
+      </section></dialog>
 
   <script>
     var API='https://script.google.com/macros/s/AKfycbx5EPKuoSLjsOj94G1Dufnq1PzZwuNo0cMUQ8ZMMns9fbKO67HFDgHr0zu7lkAAWOPI/exec';
@@ -122,27 +122,27 @@
     function getReportSession(){if(forceGuest)return null;try{var s=JSON.parse(localStorage.getItem(SESSION_KEY)||'null');return s&&s.sessionToken&&!s.needsReauth&&(!s.sessionExpires||Number(s.sessionExpires)>Date.now())?s:null}catch(_){return null}}
     function show(message,type){statusBox.textContent=message||'';statusBox.className=message?'status show '+(type||'warn'):'status'}
     function restoreGuestEmail(){var input=document.getElementById('reportEmail');if(!input||input.value)return;try{input.value=localStorage.getItem(REPORT_EMAIL_KEY)||''}catch(_){}}function updateReportIdentity(){var s=getReportSession(),guest=document.getElementById('guestReportEmail'),privacy=document.querySelector('.privacy');identityBox.className='report-identity'+(s?'':' guest');identityBox.innerHTML='';if(s){identityBox.append('Reporting as ');var name=document.createElement('strong');name.textContent=s.displayName||'Your profile';identityBox.append(name,'. This issue will be linked to your profile.');guest.hidden=true;privacy.textContent='Your report is linked to your Songbook profile. No email address is published.'}else{identityBox.append('You can report an issue without an account. ');var a=document.createElement('a');a.href='profiles.html';a.textContent='Sign In or Create Profile';identityBox.append(a,' to link this report to your profile.');guest.hidden=false;restoreGuestEmail();privacy.textContent='Guest email is optional and used only if we need to follow up.'}button.disabled=sending;reportsVisible()}    function finish(){sending=false;button.textContent='Submit Report';updateReportIdentity()}
-    var reportRows=[],reportFilter='all',reportOwner='',reportGeneration=0,reportLoading=false,reportLoaded=false,reportController=null,reportExpiryTimer;
+    var reportRows=[],reportFilter='open',reportOwner='',reportGeneration=0,reportLoading=false,reportLoaded=false,reportController=null,reportExpiryTimer;
     var reportPanel=document.getElementById('myReports'),reportList=document.getElementById('myReportsList'),reportError=document.getElementById('myReportsError'),reportRefresh=document.getElementById('refreshReports');
     function reportSessionOwner(s){return s?s.sessionToken+'\n'+(s.profileId||''):''}
     function reportsVisible(){
-      var s=getReportSession(),owner=reportSessionOwner(s);
+      var s=getReportSession(),owner=reportSessionOwner(s)||'guest';
       if(owner!==reportOwner){
         reportGeneration++;if(reportController)reportController.abort();reportController=null;
         clearTimeout(reportExpiryTimer);reportOwner=owner;reportRows=[];reportLoading=false;reportLoaded=false;
         reportList.textContent='';reportError.textContent='';reportError.className='status error';reportRefresh.disabled=false;reportList.setAttribute('aria-busy','false');
         if(s&&Number(s.sessionExpires)>Date.now())reportExpiryTimer=setTimeout(updateReportIdentity,Math.min(Number(s.sessionExpires)-Date.now()+1,2147483647));
       }
-      reportPanel.hidden=!s;
-      if(s&&!reportLoaded&&!reportLoading)loadMyReports();
+      reportPanel.hidden=false;
+      if(!reportLoaded&&!reportLoading)loadMyReports();
     }
     function reportIsResolved(row){return ['fixed','duplicate',"won't fix",'closed','resolved'].indexOf(String(row.status||'').trim().toLowerCase())>=0}
     function renderMyReports(){
-      if(!reportOwner||reportSessionOwner(getReportSession())!==reportOwner){reportsVisible();return}
+      if(!reportOwner||(reportSessionOwner(getReportSession())||'guest')!==reportOwner){reportsVisible();return}
       reportList.textContent='';
       var oldest=document.getElementById('reportSort').value==='oldest';
-      var rows=reportRows.filter(function(row){return reportFilter==='all'||(reportFilter==='resolved')===reportIsResolved(row)}).sort(function(a,b){var x=Date.parse(a.submitted)||0,y=Date.parse(b.submitted)||0;return oldest?x-y:y-x});
-      if(!rows.length){reportList.textContent=reportLoading?'Loading your reports…':'No reports to show.';return}
+      var rows=reportRows.filter(function(row){return reportFilter==='all'||(reportFilter==='mine'?row.isMine:(reportFilter==='resolved')===reportIsResolved(row))}).sort(function(a,b){var x=Date.parse(a.submitted)||0,y=Date.parse(b.submitted)||0;return oldest?x-y:y-x});
+      if(!rows.length){reportList.textContent=reportLoading?'Loading community reports…':'No reports to show.';return}
       rows.forEach(function(row){
         var card=document.createElement('article');card.className='report-entry';
         var top=document.createElement('div');top.className='report-entry-top';
@@ -151,20 +151,20 @@
         var title=document.createElement('h3');title.textContent=row.subject||row.category||'Issue report';
         var details=document.createElement('p');details.textContent=row.description||'';card.append(top,title,details);
         if(row.feature||row.severity){var area=document.createElement('p');area.className='report-meta';area.textContent=[row.feature,row.severity].filter(Boolean).join(' · ');card.append(area)}
-        if(row.resolution){var resolution=document.createElement('div');resolution.className='report-resolution';var label=document.createElement('strong');label.textContent='Resolution';var text=document.createElement('p');text.textContent=row.resolution;resolution.append(label,text);card.append(resolution)}
+        if(!reportIsResolved(row)){var support=document.createElement('button');support.type='button';support.className='report-refresh';support.textContent=(row.viewerSupported?'Me Too added':'Me Too')+' · '+Number(row.supportCount||0);support.disabled=!!row.viewerSupported;support.onclick=function(){supportReport(row,support)};card.append(support)}if(row.resolution){var resolution=document.createElement('div');resolution.className='report-resolution';var label=document.createElement('strong');label.textContent='Resolution';var text=document.createElement('p');text.textContent=row.resolution;resolution.append(label,text);card.append(resolution)}
         reportList.append(card);
       });
     }
     async function loadMyReports(){
-      var s=getReportSession();if(!s){reportsVisible();return}
-      if(reportSessionOwner(s)!==reportOwner){reportsVisible();return}
+      var s=getReportSession();
+      if((reportSessionOwner(s)||'guest')!==reportOwner){reportsVisible();return}
       if(reportController)reportController.abort();
       var generation=++reportGeneration,owner=reportOwner,controller=new AbortController();reportController=controller;reportLoading=true;
       reportRefresh.disabled=true;reportList.setAttribute('aria-busy','true');reportError.textContent='';reportError.className='status error';renderMyReports();
       var timer=setTimeout(function(){controller.abort()},25000);
-      function current(){if(generation!==reportGeneration)return false;if(reportSessionOwner(getReportSession())!==owner){reportsVisible();return false}return true}
+      function current(){if(generation!==reportGeneration)return false;if((reportSessionOwner(getReportSession())||'guest')!==owner){reportsVisible();return false}return true}
       try{
-        var response=await fetch(API,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({action:'getMyReports',sessionToken:s.sessionToken}),signal:controller.signal,redirect:'follow'});
+        var response=await fetch(API,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({action:'listCommunityReports',sessionToken:s?s.sessionToken:''}),signal:controller.signal,redirect:'follow'});
         if(response.ok===false)throw new Error('Report history could not be loaded. Please refresh to try again.');
         var result=await response.json();if(!current())return;
         if(!result||!result.success||!Array.isArray(result.reports))throw new Error(result&&result.message||'Report history could not be loaded. Please refresh to try again.');
@@ -176,12 +176,15 @@
     document.getElementById('reportSort').addEventListener('change',renderMyReports);
     document.querySelectorAll('[data-report-filter]').forEach(function(tab){tab.setAttribute('aria-pressed',String(tab.dataset.reportFilter===reportFilter));tab.addEventListener('click',function(){reportFilter=tab.dataset.reportFilter;document.querySelectorAll('[data-report-filter]').forEach(function(other){var selected=other===tab;other.classList.toggle('selected',selected);other.setAttribute('aria-pressed',String(selected))});renderMyReports()})});
     window.addEventListener('focus',updateReportIdentity);
-    form.addEventListener('submit',async function(e){e.preventDefault();if(sending)return;var s=getReportSession(),guestEmail=s?'':document.getElementById('reportEmail').value.trim();if(guestEmail&&!document.getElementById('reportEmail').checkValidity()){show('Enter a valid email address or leave it blank.','error');return}var type=document.getElementById('issueType').value,details=document.getElementById('details').value.trim(),frequency=document.getElementById('frequency').value,device=document.getElementById('device').value,severity=document.getElementById('severity').value;if(!type||!frequency||!device||!severity||details.length<10){show('Complete the required fields and describe the issue in at least 10 characters.','error');return}sending=true;button.disabled=true;button.textContent='Submitting…';show('','');var payload={action:'submitProfileIssue',sessionToken:s?s.sessionToken:'',email:guestEmail,browserId:reportBrowserId(),startedAt:reportStartedAt,website:document.getElementById('reportWebsite').value,type:type,subject:document.getElementById('subject').value.trim(),feature:document.getElementById('feature').value,details:details,expected:document.getElementById('expected').value.trim(),steps:document.getElementById('steps').value.trim(),frequency:frequency,device:device,severity:severity};try{var controller=new AbortController(),timer=setTimeout(function(){controller.abort()},25000),response=await fetch(API,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(payload),signal:controller.signal,redirect:'follow'});clearTimeout(timer);var result=await response.json();if(result.success){show((result.message||'Report submitted.')+' Reference: '+result.id,'success');if(!s&&guestEmail)try{localStorage.setItem(REPORT_EMAIL_KEY,guestEmail)}catch(_){}form.reset();reportStartedAt=Date.now();if(s)loadMyReports()}else{if(result.message&&result.message.indexOf('profile session expired')>=0){try{var old=JSON.parse(localStorage.getItem(SESSION_KEY)||'null');if(old){old.needsReauth=true;localStorage.setItem(SESSION_KEY,JSON.stringify(old))}}catch(_){}document.getElementById('reportRecovery').hidden=false;updateReportIdentity()}show(result.message||'The report could not be submitted.','error')}}catch(err){show('Unable to confirm submission. Check your connection before retrying.','error')}finally{finish()}});
+    form.addEventListener('submit',async function(e){e.preventDefault();if(sending)return;var s=getReportSession(),guestEmail=s?'':document.getElementById('reportEmail').value.trim();if(guestEmail&&!document.getElementById('reportEmail').checkValidity()){show('Enter a valid email address or leave it blank.','error');return}var type=document.getElementById('issueType').value,details=document.getElementById('details').value.trim(),frequency=document.getElementById('frequency').value,device=document.getElementById('device').value,severity=document.getElementById('severity').value;if(!type||!frequency||!device||!severity||details.length<10){show('Complete the required fields and describe the issue in at least 10 characters.','error');return}sending=true;button.disabled=true;button.textContent='Submitting…';show('','');var payload={action:'submitProfileIssue',publicReport:true,sessionToken:s?s.sessionToken:'',email:guestEmail,browserId:reportBrowserId(),startedAt:reportStartedAt,website:document.getElementById('reportWebsite').value,type:type,subject:document.getElementById('subject').value.trim(),feature:document.getElementById('feature').value,details:details,expected:document.getElementById('expected').value.trim(),steps:document.getElementById('steps').value.trim(),frequency:frequency,device:device,severity:severity};try{var controller=new AbortController(),timer=setTimeout(function(){controller.abort()},25000),response=await fetch(API,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(payload),signal:controller.signal,redirect:'follow'});clearTimeout(timer);var result=await response.json();if(result.success){show((result.message||'Report submitted.')+' Reference: '+result.id,'success');if(!s&&guestEmail)try{localStorage.setItem(REPORT_EMAIL_KEY,guestEmail)}catch(_){}form.reset();reportStartedAt=Date.now();loadMyReports()}else{if(result.message&&result.message.indexOf('profile session expired')>=0){try{var old=JSON.parse(localStorage.getItem(SESSION_KEY)||'null');if(old){old.needsReauth=true;localStorage.setItem(SESSION_KEY,JSON.stringify(old))}}catch(_){}document.getElementById('reportRecovery').hidden=false;updateReportIdentity()}show(result.message||'The report could not be submitted.','error')}}catch(err){show('Unable to confirm submission. Check your connection before retrying.','error')}finally{finish()}});
     document.getElementById('reportAsGuest').onclick=function(){forceGuest=true;document.getElementById('reportRecovery').hidden=true;reportStartedAt=Date.now();updateReportIdentity();show('You can continue as a guest. Your report fields have been preserved.','success')};updateReportIdentity();window.addEventListener('storage',function(e){if(e.key===SESSION_KEY||e.key===null)updateReportIdentity()});
     var mobileHamb=document.getElementById('hamb'),mobileSidebar=document.getElementById('sidebar');
     function setMobileNav(open){mobileSidebar.classList.toggle('open',open);mobileHamb.setAttribute('aria-expanded',String(open));mobileHamb.setAttribute('aria-label',open?'Close navigation':'Open navigation');}
     mobileHamb.onclick=function(){setMobileNav(!mobileSidebar.classList.contains('open'));};
     document.querySelectorAll('#sidebar a').forEach(function(a){a.addEventListener('click',function(){if(window.innerWidth<=820)setMobileNav(false);});});
-  </script>
+  
+var reportDialog=document.getElementById('reportDialog');document.getElementById('openReportForm').onclick=function(){updateReportIdentity();reportDialog.showModal();document.getElementById('issueType').focus()};document.getElementById('closeReportForm').onclick=function(){if(!sending)reportDialog.close()};reportDialog.addEventListener('cancel',function(e){if(sending)e.preventDefault()});
+async function supportReport(row,btn){var s=getReportSession();if(!s){reportError.textContent='Sign in on the Profiles page to add Me Too.';reportError.className='status error show';return}btn.disabled=true;btn.textContent='Saving...';var controller=new AbortController(),timer=setTimeout(function(){controller.abort()},25000);try{var response=await fetch(API,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({action:'supportIssueReport',id:row.id,sessionToken:s.sessionToken}),signal:controller.signal,redirect:'follow'}),result=await response.json();if(!result.success)throw Error(result.message||'Could not save Me Too.');await loadMyReports()}catch(e){reportError.textContent=e.message||'Unable to confirm Me Too. Refresh before retrying.';reportError.className='status error show';btn.disabled=false;btn.textContent='Me Too'}finally{clearTimeout(timer)}}
+</script>
 </body>
 </html>
